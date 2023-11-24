@@ -1,15 +1,16 @@
+using System;
 using System.Collections.Generic;
 
 namespace Sandland.LockSystem.Interfaces
 {
-    public interface ILockService
+    public interface ILockService<TLockTag> where TLockTag : Enum
     {
-        IReadOnlyCollection<ILockable> Lockables { get; }
+        IReadOnlyCollection<ILockable<TLockTag>> Lockables { get; }
         
-        void AddLockable(ILockable lockable);
-        void RemoveLockable(ILockable lockable, bool shouldUnlock);
+        void AddLockable(ILockable<TLockTag> lockable);
+        void RemoveLockable(ILockable<TLockTag> lockable, bool shouldUnlock);
         
-        void AddLock(ILock @lock);
-        void RemoveLock(ILock @lock);
+        void AddLock(ILock<TLockTag> @lock);
+        void RemoveLock(ILock<TLockTag> @lock);
     }
 }

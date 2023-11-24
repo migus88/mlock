@@ -1,22 +1,12 @@
 using System.Threading.Tasks;
-using Sandland.LockSystem.Interfaces;
-using Sandland.LockSystem.Lockables;
+using Sandland.LockSystem.Demo.Shared;
+using Sandland.LockSystem.Utils;
 using UnityEngine;
 
-namespace Sandland.LockSystem.Demo
+namespace Sandland.LockSystem.Demo.Singleton
 {
-    public class LockDemo : MonoBehaviour
+    public class SingletonLockDemo : MonoBehaviour
     {
-        [SerializeField] private ForegroundTintLockable _tint;
-        
-        private ILockService _lockService;
-        
-        private void Awake()
-        {
-            _lockService = new BasicLockService();
-            _lockService.AddLockable(_tint);
-        }
-
         private async void Start()
         {
             Debug.Log("Waiting 2 seconds");
@@ -32,7 +22,7 @@ namespace Sandland.LockSystem.Demo
 
         private async Task WithBraces()
         {
-            using (_lockService.TintLock())
+            using (SingleLockService.Instance.LockOnly(LockTag.Tint))
             {
                 Debug.Log("Showing Tint");
                 await Task.Delay(5000);
@@ -45,7 +35,7 @@ namespace Sandland.LockSystem.Demo
 
         private async Task NoBraces()
         {
-            using var tintLock = _lockService.TintLock();
+            using var tintLock = SingleLockService.Instance.LockOnly(LockTag.Tint);
             
             Debug.Log("Showing Tint");
             await Task.Delay(5000);

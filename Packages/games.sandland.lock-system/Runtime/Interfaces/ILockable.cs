@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 
 namespace Sandland.LockSystem.Interfaces
 {
-    public interface ILockable
+    public interface ILockable<TLockTag> where TLockTag : Enum
     {
-        string Category { get; }
-        List<ILock> Locks { get; }
+        TLockTag LockTag { get; }
+        List<ILock<TLockTag>> Locks { get; }
 
         void Lock();
         void Unlock();

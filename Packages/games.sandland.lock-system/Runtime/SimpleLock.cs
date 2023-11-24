@@ -3,17 +3,19 @@ using Sandland.LockSystem.Interfaces;
 
 namespace Sandland.LockSystem
 {
-    public class LockServiceLock : ILock
+    public class SimpleLock<TLockTag> : ILock<TLockTag> where TLockTag : Enum
     {
         public virtual string Id { get; }
-        public virtual string Category { get; }
-        public ILockService LockService { get; }
+        public TLockTag[] IncludeTags { get; }
+        public TLockTag[] ExcludeTags { get; }
+        public ILockService<TLockTag> LockService { get; }
 
-        public LockServiceLock(string category, ILockService lockService, bool shouldLockImmediately = true)
+        public SimpleLock(ILockService<TLockTag> lockService, TLockTag[] includeTags = null, TLockTag[] excludeTags = null, bool shouldLockImmediately = true)
         {
             Id = Guid.NewGuid().ToString();
-            Category = category;
             LockService = lockService;
+            IncludeTags = includeTags;
+            ExcludeTags = excludeTags;
 
             if (LockService == null)
             {
@@ -30,7 +32,7 @@ namespace Sandland.LockSystem
 
         public void Unlock() => LockService.RemoveLock(this);
 
-        public override string ToString() => $"{nameof(LockServiceLock)}||{Category}||{Id}";
+        public override string ToString() => $"{nameof(SimpleLock<TLockTag>)}||{Id}";
 
         public void Dispose()
         {

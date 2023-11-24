@@ -1,13 +1,14 @@
+using System;
 using System.Collections.Generic;
 using Sandland.LockSystem.Interfaces;
 using UnityEngine;
 
 namespace Sandland.LockSystem.Lockables
 {
-    public class ForegroundTintLockable : MonoBehaviour, ILockable
+    public abstract class ForegroundTintLockable<TLockTag> : MonoBehaviour, ILockable<TLockTag> where TLockTag : Enum
     {
-        public string Category => nameof(ForegroundTintLockable);
-        public List<ILock> Locks { get; } = new();
+        public List<ILock<TLockTag>> Locks { get; } = new();
+        [field:SerializeField] public TLockTag LockTag { get; set; }
         
         [SerializeField] private GameObject _tint;
         

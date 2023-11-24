@@ -1,13 +1,14 @@
+using System;
 using System.Collections.Generic;
 using Sandland.LockSystem.Interfaces;
 using UnityEngine;
 
 namespace Sandland.LockSystem.Lockables
 {
-    public class VisibilityLockableBehaviour : MonoBehaviour, ILockable
+    public abstract class VisibilityLockableBehaviour<TLockTag> : MonoBehaviour, ILockable<TLockTag> where TLockTag : Enum
     {
-        [field:SerializeField] public string Category { get; set; }
-        public List<ILock> Locks { get; } = new();
+        public List<ILock<TLockTag>> Locks { get; } = new();
+        [field:SerializeField] public TLockTag LockTag { get; set; }
         
         public void Lock()
         {
