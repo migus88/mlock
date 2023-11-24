@@ -1,0 +1,9 @@
+{
+  "name": "games.sandland.lock-system",
+  "displayName": "[Sandland] Lock System",
+  "version": "0.0.1",
+  "unity": "2022.3",
+  "description": "Lock system for Unity",
+  "dependencies": {
+  }
+}

@@ -1,0 +1,15 @@
+{
+    "name": "Sandland.LockSystem.Demo",
+    "rootNamespace": "Sandland.LockSystem",
+    "references": [
+        "Sandland.LockSystem.Runtime"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
