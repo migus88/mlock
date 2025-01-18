@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace Sandland.LockSystem.Interfaces
 {
-    public interface ILockService<TLockTag> where TLockTag : Enum
+    public interface ILockService { }
+
+    public interface ILockService<TLockTag> : ILockService where TLockTag : Enum
     {
         IReadOnlyCollection<ILockable<TLockTag>> Lockables { get; }
         

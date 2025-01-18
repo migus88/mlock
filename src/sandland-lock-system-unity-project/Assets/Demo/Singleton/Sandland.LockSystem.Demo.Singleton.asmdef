@@ -3,7 +3,8 @@
     "rootNamespace": "Sandland.LockSystem",
     "references": [
         "Sandland.LockSystem.Runtime",
-        "Sandland.LockSystem.Demo.Shared"
+        "Sandland.LockSystem.Demo.Shared",
+        "Unity.TextMeshPro"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

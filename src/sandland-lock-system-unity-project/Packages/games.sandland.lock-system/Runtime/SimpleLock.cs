@@ -5,6 +5,7 @@ namespace Sandland.LockSystem
 {
     public class SimpleLock<TLockTag> : ILock<TLockTag> where TLockTag : Enum
     {
+        public bool IsLocked { get; private set; }
         public virtual string Id { get; }
         public TLockTag[] IncludeTags { get; }
         public TLockTag[] ExcludeTags { get; }
@@ -28,9 +29,27 @@ namespace Sandland.LockSystem
             }
         }
 
-        public void Lock() => LockService.AddLock(this);
+        public void Lock()
+        {
+            if (IsLocked)
+            {
+                return;
+            }
+            
+            LockService.AddLock(this);
+            IsLocked = true;
+        }
 
-        public void Unlock() => LockService.RemoveLock(this);
+        public void Unlock()
+        {
+            if (!IsLocked)
+            {
+                return;
+            }
+
+            LockService.RemoveLock(this);
+            IsLocked = false;
+        }
 
         public override string ToString() => $"{nameof(SimpleLock<TLockTag>)}||{Id}";
 
