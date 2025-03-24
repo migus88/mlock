@@ -56,7 +56,7 @@ namespace Migs.MLock
 
             if (isLocked)
             {
-                UpdateLockState(data);
+                data.Lockable.HandleLocking();
             }
         }
 
@@ -133,7 +133,11 @@ namespace Migs.MLock
                 }
                 
                 data.Locks.Add(@lock);
-                UpdateLockState(data);
+                
+                if(data.Locks.Count == 1)
+                {
+                    data.Lockable.HandleLocking();
+                }
             }
         }
 
@@ -157,7 +161,11 @@ namespace Migs.MLock
                 }
                 
                 data.Locks.Remove(@lock);
-                UpdateLockState(data);
+                
+                if (data.Locks.Count == 0)
+                {
+                    data.Lockable.HandleUnlocking();
+                }
             }
         }
 
@@ -170,18 +178,6 @@ namespace Migs.MLock
             }
 
             return _lockableToDataMap.TryGetValue(lockable, out var data) && data.IsLocked;
-        }
-        
-        private static void UpdateLockState(ILockableData<TLockTags> data)
-        {
-            if (data.Locks.Count == 0)
-            {
-                data.Lockable.HandleUnlocking();
-            }
-            else
-            {
-                data.Lockable.HandleLocking();
-            }
         }
         
         private static bool ShouldLock(ILock<TLockTags> @lock, ILockableData<TLockTags> data)

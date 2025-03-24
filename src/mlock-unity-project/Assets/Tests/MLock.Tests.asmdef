@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "UnityEngine.CoreModule",
-        "UnityEditor.CoreModule"
+        "UnityEditor.CoreModule",
+        "MLock.Runtime"
     ],
     "includePlatforms": [
         "Editor"
