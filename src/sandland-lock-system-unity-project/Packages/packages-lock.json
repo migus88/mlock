@@ -195,7 +195,7 @@
     },
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.4",
-      "depth": 3,
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -315,7 +315,9 @@
       "version": "file:games.sandland.lock-system",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.unity.nuget.mono-cecil": "1.10.2"
+      }
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

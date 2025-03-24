@@ -1,15 +1,20 @@
 {
-    "name": "Sandland.LockSystem.Runtime",
+    "name": "Sandland.LockSystem.Editor",
     "rootNamespace": "Sandland.LockSystem",
     "references": [
+        "Sandland.LockSystem.Runtime",
+        "UnityEditor.CoreModule",
+        "UnityEngine.CoreModule"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
-    "allowUnsafeCode": true,
+    "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
-}
+} 
