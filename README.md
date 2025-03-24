@@ -148,9 +148,8 @@ public void SomeComplexMethod()
 {
     using var combatLock = _lockService.Lock(GameplayFeatures.Combat);
 
-    //Do a lot of things here
-
-    
+    // Do a lot of things here
+    // ...
 } // Combat is automatically unlocked when exiting the method
 ```
 
