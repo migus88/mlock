@@ -157,3 +157,6 @@ sysinfo.txt
 
 ### Custom
 .DS_Store
+
+### Nuget
+/[Aa]ssets/[Pp]ackages/*
