@@ -5,13 +5,13 @@ using Sandland.LockSystem.Utils;
 
 namespace Sandland.LockSystem
 {
-    public class SimpleLockService<TLockTag> : ILockService<TLockTag> where TLockTag : Enum
+    public class SimpleLockService<TLockTags> : ILockService<TLockTags> where TLockTags : Enum
     {
-        public IReadOnlyCollection<ILockable<TLockTag>> Lockables => _lockables;
+        public IReadOnlyCollection<ILockable<TLockTags>> Lockables => _lockables;
 
-        private readonly List<ILockable<TLockTag>> _lockables = new();
+        private readonly List<ILockable<TLockTags>> _lockables = new();
         
-        public void AddLockable(ILockable<TLockTag> lockable)
+        public void AddLockable(ILockable<TLockTags> lockable)
         {
             if (_lockables.Contains(lockable))
             {
@@ -21,7 +21,7 @@ namespace Sandland.LockSystem
             _lockables.Add(lockable);
         }
 
-        public void RemoveLockable(ILockable<TLockTag> lockable, bool shouldUnlock)
+        public void RemoveLockable(ILockable<TLockTags> lockable, bool shouldUnlock)
         {
             if (!_lockables.Contains(lockable))
             {
@@ -37,7 +37,7 @@ namespace Sandland.LockSystem
             _lockables.Remove(lockable);
         }
 
-        public void AddLock(ILock<TLockTag> @lock)
+        public void AddLock(ILock<TLockTags> @lock)
         {
             foreach (var lockable in _lockables)
             {
@@ -45,7 +45,7 @@ namespace Sandland.LockSystem
             }
         }
 
-        public void RemoveLock(ILock<TLockTag> @lock)
+        public void RemoveLock(ILock<TLockTags> @lock)
         {
             foreach (var lockable in _lockables)
             {

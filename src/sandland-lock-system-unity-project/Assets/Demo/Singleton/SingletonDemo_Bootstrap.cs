@@ -20,13 +20,13 @@ namespace Sandland.LockSystem.Demo.Singleton
             _transparentButton.onClick.AddListener(OnTransparentPressed);
         }
 
-        private async void OnTransparentPressed() => await ShowTint(OverlayTag.Transparent);
+        private async void OnTransparentPressed() => await ShowTint(OverlayTags.Transparent);
 
-        private async void OnLoadingPressed() => await ShowTint(OverlayTag.Loading);
+        private async void OnLoadingPressed() => await ShowTint(OverlayTags.Loading);
 
-        private async void OnTintPressed() => await ShowTint(OverlayTag.Tint);
+        private async void OnTintPressed() => await ShowTint(OverlayTags.Tint);
 
-        private async Task ShowTint(OverlayTag overlayTag)
+        private async Task ShowTint(OverlayTags overlayTag)
         {
             Debug.Log("This printed before the overlay is shown");
             await Task.Delay(2000);

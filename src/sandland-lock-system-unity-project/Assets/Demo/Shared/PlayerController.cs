@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Sandland.LockSystem.Demo.Shared
 {
-    public abstract class PlayerController : MonoBehaviour, ILockable<InputLockTag>
+    public abstract class PlayerController : MonoBehaviour, ILockable<InputLockTags>
     {
-        [field:SerializeField] public InputLockTag LockTag { get; set; }
-        public List<ILock<InputLockTag>> Locks { get; } = new();
-        protected abstract ILockService<InputLockTag> Service { get; }
-        
+        [field:SerializeField] public InputLockTags LockTags { get; set; }
+        public List<ILock<InputLockTags>> Locks { get; } = new();
+        protected abstract ILockService<InputLockTags> Service { get; }
+
         [SerializeField] private float _maxSpeed = 50f;
         [SerializeField] private float _velocity = 5f;
         [SerializeField] private float _turningSpeed = 50f;

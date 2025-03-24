@@ -6,7 +6,7 @@ using Sandland.LockSystem.Lockables;
 namespace Sandland.LockSystem.Demo.Singleton
 {
     [LockableBehaviour("SingletonDemo_UiOverlayService.Instance")]
-    public class SingletonDemo_UiTint : ForegroundUiBlocker<OverlayTag>
+    public class SingletonDemo_UiTint : ForegroundUiBlocker<OverlayTags>
     {
         protected override void Awake()
         {

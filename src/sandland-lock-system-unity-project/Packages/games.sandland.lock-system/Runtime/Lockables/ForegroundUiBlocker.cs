@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Sandland.LockSystem.Lockables
 {
-    public abstract class ForegroundUiBlocker<TLockTag> : MonoBehaviour, ILockable<TLockTag> where TLockTag : Enum
+    public abstract class ForegroundUiBlocker<TLockTags> : MonoBehaviour, ILockable<TLockTags> where TLockTags : Enum
     {
-        public List<ILock<TLockTag>> Locks { get; } = new();
-        [field:SerializeField] public TLockTag LockTag { get; set; }
+        public List<ILock<TLockTags>> Locks { get; } = new();
+        [field:SerializeField] public TLockTags LockTags { get; set; }
         
         [SerializeField] private GameObject _tint;
 

@@ -360,6 +360,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4201408805606762028, guid: a9f1858fb1a9241d3ad21c2f9cf18ce0, type: 3}
+      propertyPath: <LockTags>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6628651259796977220, guid: a9f1858fb1a9241d3ad21c2f9cf18ce0, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -439,6 +443,14 @@ PrefabInstance:
     - target: {fileID: 6628651259796977220, guid: a9f1858fb1a9241d3ad21c2f9cf18ce0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229192687136959882, guid: a9f1858fb1a9241d3ad21c2f9cf18ce0, type: 3}
+      propertyPath: <LockTags>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272213854693130572, guid: a9f1858fb1a9241d3ad21c2f9cf18ce0, type: 3}
+      propertyPath: <LockTags>k__BackingField
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9030098415985688419, guid: a9f1858fb1a9241d3ad21c2f9cf18ce0, type: 3}
       propertyPath: m_Name
@@ -869,7 +881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33e033f4acc42e5a3a6aacc70dbe057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <LockTag>k__BackingField: 1
+  <LockTags>k__BackingField: 0
   _maxSpeed: 50
   _velocity: 5
   _turningSpeed: 50

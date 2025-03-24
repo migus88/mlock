@@ -2,11 +2,11 @@ using System;
 
 namespace Sandland.LockSystem.Demo.Shared
 {
-    [Serializable]
-    public enum InputLockTag
+    [Serializable, Flags]
+    public enum InputLockTags
     {
         Player1 = 1,
         Player2 = 2,
-        UI = 3,
+        UI = 4,
     }
 }

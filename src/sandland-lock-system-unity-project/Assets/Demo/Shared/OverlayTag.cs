@@ -1,9 +1,13 @@
+using System;
+
 namespace Sandland.LockSystem.Demo.Shared
 {
-    public enum OverlayTag
+    [Serializable, Flags]
+    public enum OverlayTags
     {
-        Tint = 1,
-        Loading = 2,
-        Transparent = 3
+        None = 0,
+        Tint = 1 << 0,  
+        Loading = 1 << 1,
+        Transparent = 1 << 2
     }
 }

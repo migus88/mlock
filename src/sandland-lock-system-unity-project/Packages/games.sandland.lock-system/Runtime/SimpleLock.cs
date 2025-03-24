@@ -3,15 +3,15 @@ using Sandland.LockSystem.Interfaces;
 
 namespace Sandland.LockSystem
 {
-    public class SimpleLock<TLockTag> : ILock<TLockTag> where TLockTag : Enum
+    public class SimpleLock<TLockTags> : ILock<TLockTags> where TLockTags : Enum
     {
         public bool IsLocked { get; private set; }
         public virtual string Id { get; }
-        public TLockTag[] IncludeTags { get; }
-        public TLockTag[] ExcludeTags { get; }
-        public ILockService<TLockTag> LockService { get; }
+        public TLockTags IncludeTags { get; }
+        public TLockTags ExcludeTags { get; }
+        public ILockService<TLockTags> LockService { get; }
 
-        public SimpleLock(ILockService<TLockTag> lockService, TLockTag[] includeTags = null, TLockTag[] excludeTags = null, bool shouldLockImmediately = true)
+        public SimpleLock(ILockService<TLockTags> lockService, TLockTags includeTags = default, TLockTags excludeTags = default, bool shouldLockImmediately = true)
         {
             Id = Guid.NewGuid().ToString();
             LockService = lockService;
@@ -51,7 +51,7 @@ namespace Sandland.LockSystem
             IsLocked = false;
         }
 
-        public override string ToString() => $"{nameof(SimpleLock<TLockTag>)}||{Id}";
+        public override string ToString() => $"{nameof(SimpleLock<TLockTags>)}||{Id}";
 
         public void Dispose()
         {

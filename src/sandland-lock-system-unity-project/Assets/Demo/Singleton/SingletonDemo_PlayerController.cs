@@ -5,6 +5,6 @@ namespace Sandland.LockSystem.Demo.Singleton
 {
     public class SingletonDemo_PlayerController : PlayerController
     {
-        protected override ILockService<InputLockTag> Service => SingletonDemo_InputLockService.Instance;
+        protected override ILockService<InputLockTags> Service => SingletonDemo_InputLockService.Instance;
     }
 }

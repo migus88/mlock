@@ -12,9 +12,9 @@ namespace Sandland.LockSystem.Demo.Singleton
 {
     public abstract class LockPanel : MonoBehaviour
     {
-        protected abstract ILockService<InputLockTag> Service { get; }
+        protected abstract ILockService<InputLockTags> Service { get; }
         
-        [SerializeField] private InputLockTag _tag;
+        [SerializeField] private InputLockTags _tag;
         [SerializeField] private TextMeshProUGUI _counter;
         [SerializeField] private Button _addButton;
         [SerializeField] private Button _removeButton;
@@ -22,7 +22,7 @@ namespace Sandland.LockSystem.Demo.Singleton
         [SerializeField] private Button _tenSecondsLockButton;
         
 
-        private readonly Queue<ILock<InputLockTag>> _locks = new ();
+        private readonly Queue<ILock<InputLockTags>> _locks = new ();
         private int _tempLocksCount = 0;
 
         private void Awake()

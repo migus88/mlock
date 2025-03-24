@@ -2,12 +2,12 @@ using System;
 
 namespace Sandland.LockSystem.Interfaces
 {
-    public interface ILock<TLockTag> : IDisposable where TLockTag : Enum
+    public interface ILock<TLockTags> : IDisposable where TLockTags : Enum
     {
         string Id { get; }
-        TLockTag[] IncludeTags { get; }
-        TLockTag[] ExcludeTags { get; }
-        ILockService<TLockTag> LockService { get; }
+        TLockTags IncludeTags { get; }
+        TLockTags ExcludeTags { get; }
+        ILockService<TLockTags> LockService { get; }
 
         void Lock();
         void Unlock();

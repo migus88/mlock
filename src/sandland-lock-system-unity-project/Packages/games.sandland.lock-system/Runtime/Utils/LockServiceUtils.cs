@@ -5,21 +5,21 @@ namespace Sandland.LockSystem.Utils
 {
     public static class LockServiceUtils
     {
-        public static ILock<TLockTag> LockAll<TLockTag>(this ILockService<TLockTag> lockService) where TLockTag : Enum
+        public static ILock<TLockTags> LockAll<TLockTags>(this ILockService<TLockTags> lockService) where TLockTags : Enum
         {
-            return new SimpleLock<TLockTag>(lockService);
+            return new SimpleLock<TLockTags>(lockService);
         }
 
-        public static ILock<TLockTag> LockAllExcept<TLockTag>(this ILockService<TLockTag> lockService,
-            params TLockTag[] excludeTags) where TLockTag : Enum
+        public static ILock<TLockTags> LockAllExcept<TLockTags>(this ILockService<TLockTags> lockService,
+            TLockTags excludeTags) where TLockTags : Enum
         {
-            return new SimpleLock<TLockTag>(lockService, null, excludeTags);
+            return new SimpleLock<TLockTags>(lockService, default, excludeTags);
         }
 
-        public static ILock<TLockTag> LockOnly<TLockTag>(this ILockService<TLockTag> lockService,
-            params TLockTag[] includeTags) where TLockTag : Enum
+        public static ILock<TLockTags> LockOnly<TLockTags>(this ILockService<TLockTags> lockService,
+            TLockTags includeTags) where TLockTags : Enum
         {
-            return new SimpleLock<TLockTag>(lockService, includeTags);
+            return new SimpleLock<TLockTags>(lockService, includeTags);
         }
     }
 }

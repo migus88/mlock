@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Sandland.LockSystem.Interfaces
 {
-    public interface ILockable<TLockTag> where TLockTag : Enum
+    public interface ILockable<TLockTags> where TLockTags : Enum
     {
-        TLockTag LockTag { get; }
-        List<ILock<TLockTag>> Locks { get; }
+        TLockTags LockTags { get; }
+        List<ILock<TLockTags>> Locks { get; }
 
         void Lock();
         void Unlock();

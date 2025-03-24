@@ -5,14 +5,14 @@ namespace Sandland.LockSystem.Interfaces
 {
     public interface ILockService { }
 
-    public interface ILockService<TLockTag> : ILockService where TLockTag : Enum
+    public interface ILockService<TLockTags> : ILockService where TLockTags : Enum
     {
-        IReadOnlyCollection<ILockable<TLockTag>> Lockables { get; }
+        IReadOnlyCollection<ILockable<TLockTags>> Lockables { get; }
         
-        void AddLockable(ILockable<TLockTag> lockable);
-        void RemoveLockable(ILockable<TLockTag> lockable, bool shouldUnlock);
+        void AddLockable(ILockable<TLockTags> lockable);
+        void RemoveLockable(ILockable<TLockTags> lockable, bool shouldUnlock);
         
-        void AddLock(ILock<TLockTag> @lock);
-        void RemoveLock(ILock<TLockTag> @lock);
+        void AddLock(ILock<TLockTags> @lock);
+        void RemoveLock(ILock<TLockTags> @lock);
     }
 }
