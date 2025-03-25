@@ -4,7 +4,7 @@ using Migs.MLock.Examples.Shared;
 using Migs.MLock.Interfaces;
 using UnityEngine.UIElements;
 
-namespace Migs.MLock.Examples.Car.UiElements.Code.Controls
+namespace Migs.MLock.Examples.Car_UiElements.Code.Controls
 {
     public class LockableButton : Button, ILockable<CarLockTags>, IDisposable
     {

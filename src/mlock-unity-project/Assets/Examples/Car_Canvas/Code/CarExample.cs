@@ -14,9 +14,9 @@ namespace Migs.MLock.Examples.Car_Canvas.Code
     /// </summary>
     public class CarExample : MonoBehaviour
     {
-        [SerializeField] private CarController _carController;
-        [SerializeField] private Canvas _mainCanvas;
+        #region Serialized Fields
 
+        [SerializeField] private Canvas _mainCanvas;
         [SerializeField] private Button _menuButton;
         [SerializeField] private Button _tempLockButton;
         [SerializeField] private GameObject _menuPopup;
@@ -25,29 +25,21 @@ namespace Migs.MLock.Examples.Car_Canvas.Code
         [SerializeField] private GameObject _languageTooltip;
         [SerializeField] private Button[] _languageButtons;
 
-        // Locks
+        #endregion
+
+        #region Locks
+
         private ILock<CarLockTags> _gameLock;
         private ILock<CarLockTags> _menuLock;
 
-        private void Awake()
-        {
-            CarLockService.Instance.Subscribe(_carController);
-        }
+        #endregion
+
+        #region Initialization
 
         private void Start()
         {
             InitializeUI();
             SetupUIEventHandlers();
-        }
-
-        private void OnDisable()
-        {
-            CleanupUIEventHandlers();
-        }
-
-        private void OnDestroy()
-        {
-            CarLockService.Instance.Unsubscribe(_carController);
         }
 
         private void InitializeUI()
@@ -69,6 +61,33 @@ namespace Migs.MLock.Examples.Car_Canvas.Code
             }
         }
 
+        #endregion
+
+        #region Cleanup
+
+        private void OnDisable()
+        {
+            CleanupUIEventHandlers();
+        }
+
+        private void CleanupUIEventHandlers()
+        {
+            _menuButton.onClick.RemoveListener(OnMenuButtonClicked);
+            _tempLockButton.onClick.RemoveListener(OnTempLockButtonClicked);
+            _exitButton.onClick.RemoveListener(OnExitButtonClicked);
+            _selectLanguageButton.onClick.RemoveListener(OnSelectLanguageButtonClicked);
+
+            foreach (var button in _languageButtons)
+            {
+                button.onClick.RemoveAllListeners();
+            }
+        }
+
+        #endregion
+
+        #region Button Callbacks - Magic happens here
+
+        // This method demonstrates how to use the `using` statement with MLock
         private async void OnTempLockButtonClicked()
         {
             var textComponent = _tempLockButton.GetComponentInChildren<TMP_Text>();
@@ -107,19 +126,6 @@ namespace Migs.MLock.Examples.Car_Canvas.Code
             Debug.Log("After this log the lock will be lifted");
         }
 
-        private void CleanupUIEventHandlers()
-        {
-            _menuButton.onClick.RemoveListener(OnMenuButtonClicked);
-            _tempLockButton.onClick.RemoveListener(OnTempLockButtonClicked);
-            _exitButton.onClick.RemoveListener(OnExitButtonClicked);
-            _selectLanguageButton.onClick.RemoveListener(OnSelectLanguageButtonClicked);
-
-            foreach (var button in _languageButtons)
-            {
-                button.onClick.RemoveAllListeners();
-            }
-        }
-
         private void OnMenuButtonClicked()
         {
             _menuPopup.SetActive(true);
@@ -155,5 +161,8 @@ namespace Migs.MLock.Examples.Car_Canvas.Code
             _menuLock?.Dispose();
             _menuLock = null;
         }
+
+        #endregion
+
     }
 }

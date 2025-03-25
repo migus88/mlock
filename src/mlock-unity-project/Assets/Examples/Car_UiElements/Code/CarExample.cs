@@ -1,22 +1,26 @@
 using System.Threading.Tasks;
-using Migs.Examples.Examples.MLockExample.Runtime;
 using Migs.Examples.Shared;
 using Migs.MLock.Examples.Shared;
 using Migs.MLock.Interfaces;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Migs.MLock.Examples.Car.UiElements.Code
+namespace Migs.MLock.Examples.Car_UiElements.Code
 {
     /// <summary>
     /// Example demonstrating MLock with a car and menu UI
     /// </summary>
     public class CarExample : MonoBehaviour
     {
-        [SerializeField] private CarController _carController;
+        #region Serialized Fields
+
         [SerializeField] private UIDocument _uiDocument;
         [SerializeField] private CarExampleUiBuilder _uiBuilder;
-        
+
+        #endregion
+
+        #region Controls
+
         private Button _menuButton;
         private Button _tempLockButton;
         private VisualElement _menuPopup;
@@ -24,35 +28,23 @@ namespace Migs.MLock.Examples.Car.UiElements.Code
         private Button _selectLanguageButton;
         private VisualElement _languageTooltip;
         private Button[] _languageButtons;
-        private Slider _musicVolumeSlider;
-        private Toggle _analyticsToggle;
+
+        #endregion
+
+        #region Locks
         
-        // Locks
         private ILock<CarLockTags> _gameLock;
         private ILock<CarLockTags> _menuLock;
-        
-        private void Awake()
-        {
-            // Subscribe car controller to the lock service
-            CarLockService.Instance.Subscribe(_carController);
-        }
+
+        #endregion
+
+        #region Initialization
         
         private void OnEnable()
         {
             _uiBuilder.BuildUI();
             InitializeUI();
             SetupUIEventHandlers();
-        }
-        
-        private void OnDisable()
-        {
-            CleanupUIEventHandlers();
-        }
-        
-        private void OnDestroy()
-        {
-            // Cleanup by unsubscribing from the lock service
-            CarLockService.Instance.Unsubscribe(_carController);
         }
         
         private void InitializeUI()
@@ -66,8 +58,6 @@ namespace Migs.MLock.Examples.Car.UiElements.Code
             _exitButton = root.Q<Button>(CarExampleUiBuilder.ExitButtonName);
             _selectLanguageButton = root.Q<Button>(CarExampleUiBuilder.SelectLanguageButtonName);
             _languageTooltip = root.Q<VisualElement>(CarExampleUiBuilder.LanguageTooltipName);
-            _musicVolumeSlider = root.Q<Slider>(CarExampleUiBuilder.MusicVolumeSliderName);
-            _analyticsToggle = root.Q<Toggle>(CarExampleUiBuilder.AnalyticsToggleName);
             
             // Get language buttons
             _languageButtons = new[]
@@ -95,6 +85,33 @@ namespace Migs.MLock.Examples.Car.UiElements.Code
             }
         }
 
+        #endregion
+
+        #region Cleanup
+        
+        private void OnDisable()
+        {
+            CleanupUIEventHandlers();
+        }
+        
+        private void CleanupUIEventHandlers()
+        {
+            _menuButton.clicked -= OnMenuButtonClicked;
+            _tempLockButton.clicked -= OnTempLockButtonClicked;
+            _exitButton.clicked -= OnExitButtonClicked;
+            _selectLanguageButton.clicked -= OnSelectLanguageButtonClicked;
+            
+            foreach (var button in _languageButtons)
+            {
+                button.clickable.clickedWithEventInfo -= OnLanguageButtonClicked;
+            }
+        }
+
+        #endregion
+
+        #region Button Callbacks - Magic happens here
+
+        // This method demonstrates how to use the `using` statement with MLock
         private async void OnTempLockButtonClicked()
         {
             var originalText = _tempLockButton.text;
@@ -136,19 +153,6 @@ namespace Migs.MLock.Examples.Car.UiElements.Code
         {
             OnLanguageSelected(((Button)obj.target).text);
         }
-
-        private void CleanupUIEventHandlers()
-        {
-            _menuButton.clicked -= OnMenuButtonClicked;
-            _tempLockButton.clicked -= OnTempLockButtonClicked;
-            _exitButton.clicked -= OnExitButtonClicked;
-            _selectLanguageButton.clicked -= OnSelectLanguageButtonClicked;
-            
-            foreach (var button in _languageButtons)
-            {
-                button.clickable.clickedWithEventInfo -= OnLanguageButtonClicked;
-            }
-        }
         
         private void OnMenuButtonClicked()
         {
@@ -185,5 +189,8 @@ namespace Migs.MLock.Examples.Car.UiElements.Code
             _menuLock?.Dispose();
             _menuLock = null;
         }
+
+        #endregion
+        
     }
 } 

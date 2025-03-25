@@ -1,4 +1,3 @@
-using System;
 using Migs.Examples.Shared;
 using Migs.MLock.Examples.Shared;
 using Migs.MLock.Interfaces;

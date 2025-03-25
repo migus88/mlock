@@ -1,3 +1,4 @@
+using System;
 using Migs.Examples.Shared;
 using Migs.MLock.Interfaces;
 using UnityEngine;
@@ -14,16 +15,14 @@ namespace Migs.MLock.Examples.Shared
         
         private bool _isLocked;
 
-        // Called when the car is locked
-        public void HandleLocking()
+        private void Awake()
         {
-            _isLocked = true;
+            CarLockService.Instance.Subscribe(this);
         }
 
-        // Called when the car is unlocked
-        public void HandleUnlocking()
+        private void OnDestroy()
         {
-            _isLocked = false;
+            CarLockService.Instance.Unsubscribe(this);
         }
         
         private void Update()
@@ -36,6 +35,18 @@ namespace Migs.MLock.Examples.Shared
             
             transform.Translate(Vector3.forward * verticalInput * _moveSpeed * Time.deltaTime);
             transform.Rotate(Vector3.up * horizontalInput * _rotationSpeed * Time.deltaTime);
+        }
+
+        // Called when the car is locked
+        public void HandleLocking()
+        {
+            _isLocked = true;
+        }
+
+        // Called when the car is unlocked
+        public void HandleUnlocking()
+        {
+            _isLocked = false;
         }
     }
 } 

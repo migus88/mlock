@@ -1,9 +1,9 @@
 using Migs.Examples.Shared;
-using Migs.MLock.Examples.Car.UiElements.Code.Controls;
+using Migs.MLock.Examples.Car_UiElements.Code.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Migs.Examples.Examples.MLockExample.Runtime
+namespace Migs.MLock.Examples.Car_UiElements.Code
 {
     /// <summary>
     /// Builds the UI programmatically using UIElements for the MLock Car Example
