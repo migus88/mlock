@@ -18,6 +18,7 @@ MLock is a powerful lock management system designed specifically for Unity that 
 - **Inclusion/Exclusion Logic**: Lock specific tags or lock everything except specific tags
 - **Lightweight**: Minimal overhead with a focus on performance
 - **Generic Implementation**: Works with any custom enum type for maximum flexibility
+- **[Debug Windows](#debug-windows)**: Built-in tools to monitor and control locks in real-time
 
 ## Installation
 
@@ -171,6 +172,48 @@ if (_lockService.IsLocked(playerController))
     // Player is currently locked
 }
 ```
+
+## Debug Windows
+
+MLock comes with built-in debug windows that provide real-time monitoring and control of your lock system directly within the Unity Editor.
+
+### Available Debug Windows
+
+- **Locks Debug Window**: Shows all active locks, affected objects, and lock details
+- **Services Debug Window**: Displays registered lock services and their status
+
+### Opening Debug Windows
+
+1. In Unity, go to `Window > MLock > Locks Debug` or `Window > MLock > Services Debug`
+
+### Registering Services for Debugging
+
+For the debug windows to work, you need to register your lock services:
+
+```csharp
+// Using extension method (recommended)
+var lockService = new BaseLockService<MyLockTags>().WithDebug();
+
+// Unregister when no longer needed
+lockService.WithoutDebug();
+```
+
+### Debug Window Features
+
+- **Real-time monitoring** of all active locks in your game
+- **Search functionality** to filter locks by lockables, tags, or other criteria
+- **Unlock buttons** to release specific locks during gameplay
+- **Unlock All** to quickly reset all locks in the system
+- **Auto-refresh** to keep the display updated with the latest information
+
+### Debug Window Benefits
+
+- **Troubleshooting**: Quickly identify which locks are active when unexpected behavior occurs
+- **Development**: Test locking/unlocking features without modifying code
+- **QA**: Verify lock system behavior and relationships between game objects
+- **Performance Monitoring**: See how many locks are active at any given time
+
+Note: Debug windows only work in the Unity Editor and have no impact on your game builds.
 
 ## Architecture
 
