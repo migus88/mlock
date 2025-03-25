@@ -26,7 +26,7 @@ namespace Migs.MLock.Examples.Shared
         {
             get
             {
-                if (_instance == null)
+                if (_instance == null && Application.isPlaying) 
                 {
                     var go = new GameObject("LockService");
                     _instance = go.AddComponent<TLockService>();

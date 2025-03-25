@@ -4,7 +4,8 @@
   "references": [
     "MLock.Runtime",
     "UnityEngine.UIElementsModule",
-    "MLock.Examples.Shared"
+    "MLock.Examples.Shared",
+    "Unity.TextMeshPro"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

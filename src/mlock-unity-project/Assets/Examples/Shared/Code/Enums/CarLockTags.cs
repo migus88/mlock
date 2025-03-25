@@ -5,7 +5,7 @@ namespace Migs.Examples.Shared
     /// <summary>
     /// Tags used for locking different parts of the car system
     /// </summary>
-    [Flags]
+    [Flags, Serializable]
     public enum CarLockTags
     {
         None = 0,

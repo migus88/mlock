@@ -2,13 +2,14 @@ using System;
 using Migs.Examples.Shared;
 using Migs.MLock.Examples.Shared;
 using Migs.MLock.Interfaces;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Migs.MLock.Examples.Car_Canvas.Code.Controls
 {
     public class LockableToggle : Toggle, ILockable<CarLockTags>
     {
-        public CarLockTags LockTags { get; set; }
+        [field:SerializeField] public CarLockTags LockTags { get; set; }
 
         protected override void Awake()
         {
@@ -19,7 +20,7 @@ namespace Migs.MLock.Examples.Car_Canvas.Code.Controls
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            CarLockService.Instance.Unsubscribe(this);
+            CarLockService.Instance?.Unsubscribe(this);
         }
 
         public void HandleLocking()
