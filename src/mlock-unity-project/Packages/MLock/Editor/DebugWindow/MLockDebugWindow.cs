@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Migs.MLock.Debugging;
 using UnityEditor;
 using UnityEngine;
@@ -15,12 +16,17 @@ namespace Migs.MLock.Editor.DebugWindow
         private Vector2 _scrollPosition;
         private bool _isAutoRefresh = true;
         private readonly Dictionary<int, bool> _foldoutStates = new Dictionary<int, bool>();
+        private string _searchText = "";
+        private enum SearchType { Lockables, Tags, Includes, Excludes }
+        private SearchType _searchType = SearchType.Lockables;
         
         // Styles
         private GUIStyle _headerStyle;
         private GUIStyle _subheaderStyle;
         private GUIStyle _lockItemStyle;
         private GUIStyle _affectedItemStyle;
+        private GUIStyle _boldLabelStyle;
+        private GUIStyle _categoryStyle;
         
         // Menu item to open the window
         [MenuItem("Window/MLock/Locks Debug")]
@@ -28,6 +34,15 @@ namespace Migs.MLock.Editor.DebugWindow
         {
             var window = GetWindow<MLockDebugWindow>();
             window.titleContent = new GUIContent("MLock Debug");
+            window.Show();
+        }
+        
+        // Menu item to open the services window
+        [MenuItem("Window/MLock/Services Debug")]
+        public static void ShowServicesWindow()
+        {
+            var window = GetWindow<MLockServicesDebugWindow>();
+            window.titleContent = new GUIContent("MLock Services");
             window.Show();
         }
         
@@ -71,6 +86,17 @@ namespace Migs.MLock.Editor.DebugWindow
             {
                 margin = new RectOffset(20, 4, 1, 1)
             };
+            
+            _boldLabelStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                margin = new RectOffset(0, 5, 2, 2)
+            };
+            
+            _categoryStyle = new GUIStyle(EditorStyles.helpBox)
+            {
+                margin = new RectOffset(0, 0, 2, 4),
+                padding = new RectOffset(6, 6, 4, 4)
+            };
         }
         
         private void OnEditorUpdate()
@@ -91,9 +117,10 @@ namespace Migs.MLock.Editor.DebugWindow
             
             EditorGUILayout.Space();
             
+            DrawSearchBar();
+            
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             
-            DrawLockServices();
             DrawActiveLocks();
             
             EditorGUILayout.EndScrollView();
@@ -114,6 +141,12 @@ namespace Migs.MLock.Editor.DebugWindow
             
             GUILayout.FlexibleSpace();
             
+            // Services window button
+            if (GUILayout.Button("Services Window", EditorStyles.toolbarButton))
+            {
+                ShowServicesWindow();
+            }
+            
             // Unlock all button
             if (GUILayout.Button("Unlock All", EditorStyles.toolbarButton))
             {
@@ -129,24 +162,22 @@ namespace Migs.MLock.Editor.DebugWindow
             EditorGUILayout.EndHorizontal();
         }
         
-        private void DrawLockServices()
+        private void DrawSearchBar()
         {
-            EditorGUILayout.LabelField("Lock Services", _headerStyle);
+            EditorGUILayout.BeginHorizontal();
             
-            var services = DebugData.GetLockServices();
-            if (services.Count == 0)
+            EditorGUILayout.LabelField("Search By:", GUILayout.Width(70));
+            _searchType = (SearchType)EditorGUILayout.EnumPopup(_searchType, GUILayout.Width(100));
+            
+            _searchText = EditorGUILayout.TextField(_searchText);
+            
+            if (GUILayout.Button("Clear", GUILayout.Width(60)))
             {
-                EditorGUILayout.HelpBox("No lock services registered. Lock services must be registered with MLockDebugData.RegisterLockService().", MessageType.Info);
-                return;
+                _searchText = "";
+                GUI.FocusControl(null);
             }
             
-            foreach (var pair in services)
-            {
-                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                EditorGUILayout.LabelField($"Type: {pair.Key.Name}", _subheaderStyle);
-                EditorGUILayout.LabelField($"Service: {pair.Value.GetType().Name}");
-                EditorGUILayout.EndVertical();
-            }
+            EditorGUILayout.EndHorizontal();
         }
         
         private void DrawActiveLocks()
@@ -160,21 +191,30 @@ namespace Migs.MLock.Editor.DebugWindow
                 EditorGUILayout.HelpBox("No active locks.", MessageType.Info);
                 return;
             }
+
+            // Filter locks based on search
+            var filteredLocks = FilterLocks(locks);
             
-            foreach (var lockInfo in locks)
+            if (filteredLocks.Count == 0 && !string.IsNullOrEmpty(_searchText))
+            {
+                EditorGUILayout.HelpBox($"No locks matching search: '{_searchText}'", MessageType.Info);
+                return;
+            }
+            
+            foreach (var lockInfo in filteredLocks)
             {
                 EditorGUILayout.BeginVertical(_lockItemStyle);
                 
                 // Foldout for lock details
                 if (!_foldoutStates.ContainsKey(lockInfo.Id))
                 {
-                    _foldoutStates[lockInfo.Id] = true;
+                    _foldoutStates[lockInfo.Id] = false; // Collapsed by default
                 }
                 
                 EditorGUILayout.BeginHorizontal();
                 
                 _foldoutStates[lockInfo.Id] = EditorGUILayout.Foldout(_foldoutStates[lockInfo.Id], 
-                    $"Lock ID: {lockInfo.Id} ({lockInfo.LockType})");
+                    $"Lock ID: {lockInfo.Id} - Service: {lockInfo.LockType}");
                 
                 GUILayout.FlexibleSpace();
                 
@@ -203,8 +243,26 @@ namespace Migs.MLock.Editor.DebugWindow
         
         private void DrawLockDetails(LockDebugInfo lockInfo)
         {
-            EditorGUILayout.LabelField($"Include Tags: {lockInfo.IncludeTags}");
-            EditorGUILayout.LabelField($"Exclude Tags: {lockInfo.ExcludeTags}");
+            EditorGUILayout.BeginVertical(_categoryStyle);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("Service:", _boldLabelStyle, GUILayout.Width(120));
+            GUILayout.Label(lockInfo.LockType);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.BeginVertical(_categoryStyle);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("Include Tags:", _boldLabelStyle, GUILayout.Width(120));
+            GUILayout.Label(lockInfo.IncludeTags);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.BeginVertical(_categoryStyle);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("Exclude Tags:", _boldLabelStyle, GUILayout.Width(120));
+            GUILayout.Label(lockInfo.ExcludeTags);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
             
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Affected Lockables:", _subheaderStyle);
@@ -220,5 +278,29 @@ namespace Migs.MLock.Editor.DebugWindow
                 EditorGUILayout.LabelField(lockable, _affectedItemStyle);
             }
         }
+        
+        private List<LockDebugInfo> FilterLocks(List<LockDebugInfo> locks)
+        {
+            if (string.IsNullOrEmpty(_searchText))
+            {
+                return locks;
+            }
+            
+            return locks.Where(lockInfo =>
+            {
+                switch (_searchType)
+                {
+                    case SearchType.Tags:
+                        return lockInfo.LockType.ToLower().Contains(_searchText.ToLower());
+                    case SearchType.Includes:
+                        return lockInfo.IncludeTags.ToLower().Contains(_searchText.ToLower());
+                    case SearchType.Excludes:
+                        return lockInfo.ExcludeTags.ToLower().Contains(_searchText.ToLower());
+                    case SearchType.Lockables:
+                    default:
+                        return lockInfo.AffectedLockables.Any(l => l.ToLower().Contains(_searchText.ToLower()));
+                }
+            }).ToList();
+        }
     }
-} 
+}
