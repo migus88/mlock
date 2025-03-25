@@ -16,6 +16,5 @@
     "url": "https://github.com/migus88"
   },
   "dependencies": {
-    "com.unity.nuget.mono-cecil": "1.10.2"
   }
 }
