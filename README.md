@@ -127,6 +127,16 @@ ILock<GameplayFeatures> lockAll = _lockService.LockAll();
 movementLock.Dispose();
 ```
 
+## Examples
+
+The repository includes a Car Example that demonstrates the MLock system in action. The example shows a simple car interface with menu systems where different UI elements need to be locked based on the current context. The same functionality is implemented using two different UI approaches:
+
+### Available Examples:
+
+- [Shared Components](src/mlock-unity-project/Assets/Examples/Shared)
+- [Car with Unity Canvas UI](src/mlock-unity-project/Assets/Examples/Car_Canvas)
+- [Car with UI Toolkit (UI Elements)](src/mlock-unity-project/Assets/Examples/Car_UiElements)
+
 ## Advanced Usage
 
 ### Using Locks with Using Statements
