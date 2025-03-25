@@ -68,7 +68,7 @@ Add the OpenUPM scoped registry and the package to your `manifest.json` file in 
     }
   ],
   "dependencies": {
-    "com.migsweb.mlock": "1.0.0",
+    "com.migsweb.mlock": "1.2.0",
     // other dependencies...
   }
 }
@@ -86,7 +86,7 @@ Add the OpenUPM scoped registry and the package to your `manifest.json` file in 
 
 To use a specific version, add a tag to the URL:
 ```
-https://github.com/migus88/mlock.git?path=/src/mlock-unity-project/Packages/MLock#v1.0.0
+https://github.com/migus88/mlock.git?path=/src/mlock-unity-project/Packages/MLock#1.2.0
 ```
 </details>
 
