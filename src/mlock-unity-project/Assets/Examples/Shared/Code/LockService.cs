@@ -1,4 +1,5 @@
 using System;
+using Migs.MLock.Debugging;
 using Migs.MLock.Interfaces;
 using UnityEngine;
 
@@ -45,7 +46,8 @@ namespace Migs.MLock.Examples.Shared
                 return;
             }
 
-            _lockService = new BaseLockService<TLockTags>();
+            _lockService = new BaseLockService<TLockTags>()
+                .WithDebug<TLockTags, BaseLockService<TLockTags>>();
         }
 
         public void Subscribe(ILockable<TLockTags> lockable) => _lockService.Subscribe(lockable);
