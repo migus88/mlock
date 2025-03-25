@@ -1,0 +1,20 @@
+{
+  "name": "MLock.Examples.Car.Canvas",
+  "rootNamespace": "Migs.MLock",
+  "references": [
+    "MLock.Runtime",
+    "UnityEngine.UIElementsModule",
+    "MLock.Examples.Shared",
+    "Unity.TextMeshPro"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": []
+} 
