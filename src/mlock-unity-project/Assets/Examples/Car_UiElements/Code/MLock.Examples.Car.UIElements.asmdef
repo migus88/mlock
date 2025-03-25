@@ -1,0 +1,19 @@
+{
+  "name": "MLock.Examples.Car.UIElements",
+  "rootNamespace": "Migs.MLock",
+  "references": [
+    "MLock.Runtime",
+    "UnityEngine.UIElementsModule",
+    "MLock.Examples.Shared"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": []
+} 
