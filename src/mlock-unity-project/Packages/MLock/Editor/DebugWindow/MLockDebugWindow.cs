@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Migs.MLock.Debugging;
 using UnityEditor;
 using UnityEngine;
 
@@ -33,14 +34,14 @@ namespace Migs.MLock.Editor.DebugWindow
         private void OnEnable()
         {
             // Enable debug data collection
-            MLockDebugData.SetEnabled(true);
+            DebugData.SetEnabled(true);
             EditorApplication.update += OnEditorUpdate;
         }
         
         private void OnDisable()
         {
             // Disable debug data collection to avoid unnecessary processing
-            MLockDebugData.SetEnabled(false);
+            DebugData.SetEnabled(false);
             EditorApplication.update -= OnEditorUpdate;
         }
         
@@ -77,7 +78,7 @@ namespace Migs.MLock.Editor.DebugWindow
             if (_isAutoRefresh)
             {
                 // Update data and repaint window
-                MLockDebugData.UpdateData();
+                DebugData.UpdateData();
                 Repaint();
             }
         }
@@ -105,7 +106,7 @@ namespace Migs.MLock.Editor.DebugWindow
             // Refresh button
             if (GUILayout.Button("Refresh", EditorStyles.toolbarButton))
             {
-                MLockDebugData.UpdateData();
+                DebugData.UpdateData();
             }
             
             // Auto refresh toggle
@@ -120,8 +121,8 @@ namespace Migs.MLock.Editor.DebugWindow
                         "Are you sure you want to unlock all active locks?", 
                         "Yes", "Cancel"))
                 {
-                    MLockDebugData.UnlockAll();
-                    MLockDebugData.UpdateData();
+                    DebugData.UnlockAll();
+                    DebugData.UpdateData();
                 }
             }
             
@@ -132,7 +133,7 @@ namespace Migs.MLock.Editor.DebugWindow
         {
             EditorGUILayout.LabelField("Lock Services", _headerStyle);
             
-            var services = MLockDebugData.GetLockServices();
+            var services = DebugData.GetLockServices();
             if (services.Count == 0)
             {
                 EditorGUILayout.HelpBox("No lock services registered. Lock services must be registered with MLockDebugData.RegisterLockService().", MessageType.Info);
@@ -153,7 +154,7 @@ namespace Migs.MLock.Editor.DebugWindow
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Active Locks", _headerStyle);
             
-            var locks = MLockDebugData.GetActiveLocks();
+            var locks = DebugData.GetActiveLocks();
             if (locks.Count == 0)
             {
                 EditorGUILayout.HelpBox("No active locks.", MessageType.Info);
@@ -179,9 +180,9 @@ namespace Migs.MLock.Editor.DebugWindow
                 
                 if (GUILayout.Button("Unlock", GUILayout.Width(60)))
                 {
-                    if (MLockDebugData.UnlockById(lockInfo.Id))
+                    if (DebugData.UnlockById(lockInfo.Id))
                     {
-                        MLockDebugData.UpdateData();
+                        DebugData.UpdateData();
                     }
                 }
                 

@@ -4,13 +4,13 @@ using System.Linq;
 using Migs.MLock.Interfaces;
 using UnityEngine;
 
-namespace Migs.MLock.Editor.DebugWindow
+namespace Migs.MLock.Debugging
 {
     /// <summary>
     /// Static class that holds debug data for MLock system
     /// Follows the Single Responsibility principle by only handling debug data collection and storage
     /// </summary>
-    public static class MLockDebugData
+    public static class DebugData
     {
         // Dictionary to store all lock services by type
         private static readonly Dictionary<Type, ILockService> LockServices = new Dictionary<Type, ILockService>();
@@ -37,7 +37,7 @@ namespace Migs.MLock.Editor.DebugWindow
             if (!LockServices.ContainsKey(type))
             {
                 LockServices[type] = service;
-                Debug.Log($"[MLock Debug] Registered lock service for {type.Name}");
+                UnityEngine.Debug.Log($"[MLock Debug] Registered lock service for {type.Name}");
             }
         }
         
@@ -54,7 +54,7 @@ namespace Migs.MLock.Editor.DebugWindow
             if (LockServices.ContainsKey(type) && LockServices[type] == service)
             {
                 LockServices.Remove(type);
-                Debug.Log($"[MLock Debug] Unregistered lock service for {type.Name}");
+                UnityEngine.Debug.Log($"[MLock Debug] Unregistered lock service for {type.Name}");
             }
         }
         
@@ -99,7 +99,7 @@ namespace Migs.MLock.Editor.DebugWindow
                 if (activeLocks == null || lockableToDataMap == null) continue;
                 
                 // Get lock info via reflection
-                var lockInfoMethod = typeof(MLockDebugData).GetMethod("GetLockInfo", 
+                var lockInfoMethod = typeof(DebugData).GetMethod("GetLockInfo", 
                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
                 
                 var genericMethod = lockInfoMethod?.MakeGenericMethod(lockTagsType);
@@ -138,7 +138,7 @@ namespace Migs.MLock.Editor.DebugWindow
                 var service = pair.Value;
                 
                 // Use reflection to unlock
-                var unlockMethod = typeof(MLockDebugData).GetMethod("TryUnlockById", 
+                var unlockMethod = typeof(DebugData).GetMethod("TryUnlockById", 
                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
                 
                 var genericMethod = unlockMethod?.MakeGenericMethod(lockTagsType);
@@ -161,7 +161,7 @@ namespace Migs.MLock.Editor.DebugWindow
                 var service = pair.Value;
                 
                 // Use reflection to unlock all
-                var unlockAllMethod = typeof(MLockDebugData).GetMethod("TryUnlockAll", 
+                var unlockAllMethod = typeof(DebugData).GetMethod("TryUnlockAll", 
                     System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
                 
                 var genericMethod = unlockAllMethod?.MakeGenericMethod(lockTagsType);
