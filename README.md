@@ -2,7 +2,7 @@
 
 [![Unity Version](https://img.shields.io/badge/Unity-2022.3+-blue.svg)](https://unity.com/releases/editor/whats-new/2022.3.0)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](src/mlock-unity-project/Packages/MLock/package.json)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue.svg)](src/mlock-unity-project/Packages/MLock/package.json)
 
 A flexible and efficient lock system for Unity that manages access to gameplay elements based on configurable tags.
 
@@ -22,18 +22,81 @@ MLock is a powerful lock management system designed specifically for Unity that 
 
 ## Installation
 
-### Using Unity Package Manager (Recommended)
+<details>
+<summary><b>Using OpenUPM (Recommended)</b></summary>
+
+#### Option 1: Via Command Line
+
+```bash
+# Install openupm-cli if you don't have it
+npm install -g openupm-cli
+
+# Navigate to your Unity project directory
+cd path/to/your/unity/project
+
+# Add the package
+openupm add com.migsweb.mlock
+```
+
+#### Option 2: Via Package Manager UI
 
 1. Open your Unity project
-2. Go to Window > Package Manager
-3. Click the + button > Add package from git URL
-4. Enter `https://github.com/migus88/sandland-lock-system.git?path=/src/mlock-unity-project/Packages/MLock`
-5. Click Add
+2. Add the OpenUPM scoped registry to your project:
+   - Open `Edit > Project Settings > Package Manager`
+   - Add a new Scoped Registry:
+     - Name: `OpenUPM`
+     - URL: `https://package.openupm.com`
+     - Scope(s): `com.migsweb`
+3. Click `Save`
+4. Open `Window > Package Manager`
+5. Change the package source to `My Registries`
+6. Find `MLock` and click `Install`
 
-### Manual Installation
+#### Option 3: Via Manual JSON Editing
 
-1. Download this repository
-2. Copy the `MLock` folder to your Unity project's `Packages` directory
+Add the OpenUPM scoped registry and the package to your `manifest.json` file in the `Packages` folder of your Unity project:
+
+```json
+{
+  "scopedRegistries": [
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.migsweb"
+      ]
+    }
+  ],
+  "dependencies": {
+    "com.migsweb.mlock": "1.0.0",
+    // other dependencies...
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>Using Git URL (Alternative)</b></summary>
+
+1. Open your Unity project
+2. Go to `Window > Package Manager`
+3. Click the `+` button > `Add package from git URL`
+4. Enter: `https://github.com/migus88/mlock.git?path=/src/mlock-unity-project/Packages/MLock`
+5. Click `Add`
+
+To use a specific version, add a tag to the URL:
+```
+https://github.com/migus88/mlock.git?path=/src/mlock-unity-project/Packages/MLock#v1.0.0
+```
+</details>
+
+<details>
+<summary><b>Manual Installation</b></summary>
+
+1. Go to the [Releases](https://github.com/migus88/mlock/releases) page
+2. Download the latest `.unitypackage` file
+3. Import it into your Unity project via `Assets > Import Package > Custom Package`
+</details>
 
 ## Quick Start
 
